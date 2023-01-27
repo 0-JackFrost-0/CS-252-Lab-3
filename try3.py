@@ -58,9 +58,9 @@ for i in range(1, 9):
     signal = encode_audio(frequency)
     # repeat the signal multiple times
     signal = np.tile(signal, (10, 1)).flatten()
-    print(type(signal.astype(np.int32)))
+    print(type(signal))
     sd.play(signal, blocking=True)
-    recording = sd.rec(int(sampling_rate * duration*10),
+    recording = sd.rec(int(sampling_rate * duration),
                        sampling_rate, channels=1)
     received_frequency = receive_and_parse(recording, threshold)
     if received_frequency is not None:
