@@ -149,7 +149,7 @@ def receive():
     Job = input("Would you like to TRANSMIT, RECEIVE or END?  ")
 
     if Job == "TRANSMIT":
-
+        
         bits = input("Type in Binary String to Send: ")
         if len(bits) % 3 == 1:
             bits = bits + "00"
