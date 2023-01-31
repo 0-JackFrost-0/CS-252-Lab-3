@@ -9,12 +9,12 @@ def bits_to_notes(bits):
     note_map = {
         "000": "Sa",
         "001": "Re1",
-        "010": "Ga3",
-        "011": "Ma1",
-        "100": "Pa",
-        "101": "Dha1",
-        "110": "Ni3",
-        "111": "SaU",
+        "011": "Ga3",
+        "010": "Ma1",
+        "110": "Pa",
+        "111": "Dha1",
+        "101": "Ni3",
+        "100": "SaU",
     }
     return [note_map[bits[i : i + 3]] for i in range(0, len(bits), 3)]
 
