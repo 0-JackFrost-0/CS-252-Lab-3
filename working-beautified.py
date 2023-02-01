@@ -12,20 +12,24 @@ def play_note(frequency, duration):
     sd.play(note, blocking=True)
     print("Playing note: ", frequency)
 
+note_map = {
+    "000": "Sa",
+    "001": "Re1",
+    "011": "Ga3",
+    "010": "Ma1",
+    "110": "Pa",
+    "111": "Dha1",
+    "101": "Ni3",
+    "100": "SaU",
+}
+
 # Mayamaalava Gowla Melakarta Raagam
 def bits_to_notes(bits):
-    note_map = {
-        "000": "Sa",
-        "001": "Re1",
-        "011": "Ga3",
-        "010": "Ma1",
-        "110": "Pa",
-        "111": "Dha1",
-        "101": "Ni3",
-        "100": "SaU",
-    }
     return [note_map[bits[i : i + 3]] for i in range(0, len(bits), 3)]
 
+map_note = {}
+for key,value in note_map.items():
+    map_note[value] = key
 
 # Define the Carnatic notes and their frequencies
 sa_frequency = 280*5  # Sa frequency in Hz
@@ -90,42 +94,42 @@ def receive():
                 carnatic_notes["Sa"] + 5 > frequency
             ):
                 print("Sa")
-                received_data.append("000")
+                received_data.append(map_note['Sa'])
             elif (frequency > carnatic_notes["Ma1"] - 5) and (
                 carnatic_notes["Ma1"] + 5 > frequency
             ):
-                print("Ma1")
-                received_data.append("011")
+                print('Ma1')
+                received_data.append(map_note['Ma1'])
             elif (frequency > carnatic_notes["Re1"] - 5) and (
                 carnatic_notes["Re1"] + 5 > frequency
             ):
-                print("Re1")
-                received_data.append("001")
+                print('Re1')
+                received_data.append(map_note['Re1'])
             elif (frequency > carnatic_notes["Ga3"] - 5) and (
                 carnatic_notes["Ga3"] + 5 > frequency
             ):
-                print("Ga3")
-                received_data.append("010")
+                print(carnatic_notes['Ga3'])
+                received_data.append(map_note['Ga3'])
             elif (frequency > carnatic_notes["Pa"] - 5) and (
                 carnatic_notes["Pa"] + 5 > frequency
             ):
                 print("Pa")
-                received_data.append("100")
+                received_data.append(map_note['Pa'])
             elif (frequency > carnatic_notes["Dha1"] - 5) and (
                 carnatic_notes["Dha1"] + 5 > frequency
             ):
                 print("Dha1")
-                received_data.append("101")
+                received_data.append(map_note['Dha1'])
             elif (frequency > carnatic_notes["Ni3"] - 5) and (
                 carnatic_notes["Ni3"] + 5 > frequency
             ):
                 print("Ni3")
-                received_data.append("110")
+                received_data.append(map_note['Ni3'])
             elif (frequency > carnatic_notes["SaU"] - 5) and (
                 carnatic_notes["SaU"] + 5 > frequency
             ):
                 print("SaU")
-                received_data.append("111")
+                received_data.append(map_note['SaU'])
             elif (frequency > carnatic_notes["Re1U"] - 5) and (
                 carnatic_notes["Re1U"] + 5 > frequency):
                 break
@@ -147,13 +151,14 @@ def receive():
             #         if a > 200:
             #             Done = False
             #     rec_freq.pop(0)
-        
         rec_data = ''
         for strn in received_data:
             rec_data = rec_data + strn
+        print(rec_data)
         packets = [rec_data[i:i+21] for i in range(len(rec_data)//21)]
         for i in range(len(packets)):
             packets[i] = [int(char) for char in packets[i]]
+        print(packets)
         out = get_output(packets)
         print(f"Message received is: {out}")
 

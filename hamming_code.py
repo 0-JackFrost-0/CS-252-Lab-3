@@ -139,3 +139,8 @@ def get_output(conveyable_packets):
 # ham  = get_input()
 # print(ham)
 # print(get_output(ham))
+
+if __name__ == '__main__':
+    ham  = get_input()
+    print(ham)
+    print(get_output(ham))
