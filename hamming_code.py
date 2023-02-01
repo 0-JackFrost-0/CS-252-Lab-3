@@ -136,3 +136,6 @@ def get_output(conveyable_packets):
 # print(corrected_data(conveyable_to_hamming(correct_hamming_codes[0])))
 # print(corrected_data(conveyable_to_hamming(changed_hamming_codes[0])))
 # print(corrected_data(correct_error(conveyable_to_hamming(changed_hamming_codes[0]))))
+# ham  = get_input()
+# print(ham)
+# print(get_output(ham))

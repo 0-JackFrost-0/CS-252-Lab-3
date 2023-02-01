@@ -43,6 +43,7 @@ carnatic_notes = {
     "Ni2": sa_frequency * 16 / 9,
     "Ni3": sa_frequency * 243 / 128,
     "SaU": sa_frequency * 2,
+    "Re1U": sa_frequency*2 * 256 / 243
 }
 
 def receive():
@@ -65,7 +66,7 @@ def receive():
              # Play the aarohanam of the Mohanam raga
             for note in message_to_send:
                 play_note(carnatic_notes[note], 2)
-
+        play_note(carnatic_notes["Re1U"],2)
     elif Job == "RECEIVE":
         Done = False
         rec_freq = []
@@ -125,6 +126,9 @@ def receive():
             ):
                 print("SaU")
                 received_data.append("111")
+            elif (frequency > carnatic_notes["Re1U"] - 5) and (
+                carnatic_notes["Re1U"] + 5 > frequency):
+                break
             else:
                 count_nothing+=1
                 print("Nothing")
@@ -147,7 +151,7 @@ def receive():
         rec_data = ''
         for strn in received_data:
             rec_data = rec_data + strn
-        packets = [rec_data[i:i+11] for i in range(len(rec_data)/21)]
+        packets = [rec_data[i:i+21] for i in range(len(rec_data)//21)]
         for i in range(len(packets)):
             packets[i] = [int(char) for char in packets[i]]
         out = get_output(packets)
