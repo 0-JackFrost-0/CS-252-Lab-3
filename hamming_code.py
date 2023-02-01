@@ -131,7 +131,7 @@ def get_output(conveyable_packets):
     return bits
 
 # correct_hamming_codes, changed_hamming_codes = get_input()
-print(get_output(get_input()))
+# print(get_output(get_input()))
 # print(changed_hamming_codes)
 # print(corrected_data(conveyable_to_hamming(correct_hamming_codes[0])))
 # print(corrected_data(conveyable_to_hamming(changed_hamming_codes[0])))
