@@ -32,7 +32,7 @@ for key,value in note_map.items():
     map_note[value] = key
 
 # Define the Carnatic notes and their frequencies
-sa_frequency = 280*5  # Sa frequency in Hz
+sa_frequency = 280*20  # Sa frequency in Hz
 carnatic_notes = {
     "Sa": sa_frequency,
     "Re1": sa_frequency * 256 / 243,
@@ -151,15 +151,18 @@ def receive():
             #         if a > 200:
             #             Done = False
             #     rec_freq.pop(0)
+        print(received_data)
         rec_data = ''
         for strn in received_data:
             rec_data = rec_data + strn
         print(rec_data)
-        packets = [rec_data[i:i+21] for i in range(len(rec_data)//21)]
+        packets = [rec_data[21*i:21*i+21] for i in range(len(rec_data)//21)]
+        packets_ = []
         for i in range(len(packets)):
-            packets[i] = [int(char) for char in packets[i]]
+            packets_.append([int(char) for char in packets[i]])
         print(packets)
-        out = get_output(packets)
+        print(packets_)
+        out = get_output(packets_)
         print(f"Message received is: {out}")
 
 def sleep():
