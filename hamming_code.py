@@ -1,11 +1,14 @@
-import numpy as np
 from math import ceil
+
+import numpy as np
+
 
 # adds parity bits to the message
 def hamming_code(data):
     p0 = p1 = p2 = p4 = p8 = 0
     net_parity = 0
-    hamming_code = [p0, p1, p2] + [data[0]] + [p4] + data[1:4] + [p8] + data[4:]
+    hamming_code = [p0, p1, p2] + [data[0]] + \
+        [p4] + data[1:4] + [p8] + data[4:]
     for i, bit in enumerate(hamming_code):
         if bit == 1:
             net_parity ^= i
@@ -25,10 +28,13 @@ def hamming_code(data):
             p1 = int(bit)
     for i in range(len(hamming_code)):
         p0 ^= hamming_code[i]
-    hamming_code = [p0, p1, p2] + [data[0]] + [p4] + data[1:4] + [p8] + data[4:]
+    hamming_code = [p0, p1, p2] + [data[0]] + \
+        [p4] + data[1:4] + [p8] + data[4:]
     return hamming_code
 
 # corrects the error in the found in the code
+
+
 def correct_error(hamming_code):
     net_parity = 0
     enumerated = enumerate(hamming_code)
@@ -40,18 +46,24 @@ def correct_error(hamming_code):
     return hamming_code
 
 # removes parity bits
+
+
 def corrected_data(corrected_hamming_code):
     corrected_data = [corrected_hamming_code[3], corrected_hamming_code[5]
                       ] + corrected_hamming_code[6:8] + corrected_hamming_code[9:]
     return corrected_data
 
 # converts 16 bit hamming code to 21 bit code to send over the channel
+
+
 def hamming_to_conveyable(hamming_code, num_padded_bits):
     binary_num = bin(num_padded_bits).replace("0b", "").zfill(5)
-    conveyable = hamming_code + [int(bit) for bit in binary_num] 
+    conveyable = hamming_code + [int(bit) for bit in binary_num]
     return conveyable
 
 # removes the 5 extra bits added to the hamming code, and returns the chopped message, with the number of padded bits
+
+
 def conveyable_to_hamming(conveyable_code):
     return conveyable_code[:16]
 
@@ -61,7 +73,7 @@ def get_input():
     bit_to_change = int(input("Type in the bit position to change: "))
     padded_bits = 11 - len(bits) % 11 if len(bits) % 11 != 0 else 0
     num_packets = ceil(len(bits)/11)
-    
+
     if len(bits) % 11 != 0:
         bits += '0' * padded_bits
 
@@ -70,28 +82,30 @@ def get_input():
     hamming_packets = []
     for i in range(num_packets):
         hamming_packets.append(hamming_code(bits[i*11:(i+1)*11]))
-        
+
     # changes the bit in the message
-    packet_to_change = bit_to_change//11
-    bit_to_change = bit_to_change % 11
-    hamming = hamming_packets[packet_to_change].copy()
-    if bit_to_change >= (len(bits)-padded_bits):
-        print("Invalid bit position")
-    elif bit_to_change == 0:
-        hamming[3] = 1 - hamming[3]
-    elif bit_to_change > 0 and bit_to_change < 4:
-        hamming[4 + bit_to_change] = 1 - hamming[4 + bit_to_change]
-    elif bit_to_change > 3:
-        hamming[5 + bit_to_change] = 1 - hamming[5 + bit_to_change]
-    hamming_packets[packet_to_change] = hamming
-    
+    if bit_to_change != -1:
+        packet_to_change = bit_to_change//11
+        bit_to_change = bit_to_change % 11
+        hamming = hamming_packets[packet_to_change].copy()
+        if bit_to_change >= (len(bits)-padded_bits):
+            print("Invalid bit position")
+        elif bit_to_change == 0:
+            hamming[3] = 1 - hamming[3]
+        elif bit_to_change > 0 and bit_to_change < 4:
+            hamming[4 + bit_to_change] = 1 - hamming[4 + bit_to_change]
+        elif bit_to_change > 3:
+            hamming[5 + bit_to_change] = 1 - hamming[5 + bit_to_change]
+        hamming_packets[packet_to_change] = hamming
+
     conveyable_packets = []
     # makes message conveyable
     packet_no = 0
     for packet in hamming_packets:
         packet_no += 1
         if packet_no == num_packets:
-            conveyable_packets.append(hamming_to_conveyable(packet, padded_bits))
+            conveyable_packets.append(
+                hamming_to_conveyable(packet, padded_bits))
         else:
             conveyable_packets.append(hamming_to_conveyable(packet, 0))
 
@@ -99,6 +113,7 @@ def get_input():
     # conveyable_packets[packet_to_change] = hamming
     # return correct_conveyable_packets, conveyable_packets
     return conveyable_packets
+
 
 def get_output(conveyable_packets):
     hamming_packets = []
@@ -118,7 +133,8 @@ def get_output(conveyable_packets):
         if num_packets == len(corrected_hamming_packets):
             # print(num_of_padding)
             if num_of_padding != 0:
-                corrected_packets.append(corrected_data(packet)[:-num_of_padding])
+                corrected_packets.append(
+                    corrected_data(packet)[:-num_of_padding])
             else:
                 corrected_packets.append(corrected_data(packet))
         else:
@@ -140,7 +156,8 @@ def get_output(conveyable_packets):
 # print(ham)
 # print(get_output(ham))
 
+
 if __name__ == '__main__':
-    ham  = get_input()
+    ham = get_input()
     print(ham)
     print(get_output(ham))

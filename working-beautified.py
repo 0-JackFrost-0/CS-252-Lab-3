@@ -88,10 +88,10 @@ def receive():
             # Play the aarohanam of the Mohanam raga
             for note in message_to_send:
                 if play_upper[note]:
-                    play_note(carnatic_notes[note]*2, 2)
+                    play_note(carnatic_notes[note]*2, 1.2)
                     play_upper[note] = False
                 else:
-                    play_note(carnatic_notes[note], 2)
+                    play_note(carnatic_notes[note], 1.2)
                     play_upper[note] = True
         play_note(carnatic_notes["Re1U"], 3)
     elif Job == "RECEIVE":
