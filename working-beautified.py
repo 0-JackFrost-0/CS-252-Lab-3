@@ -107,7 +107,7 @@ def receive():
             # calculate the frequency of the maximum value
             frequency = max_index * fs / len(data)
             
-            if frequency != max_freq and frequency > 1000 or count > 4:
+            if frequency != max_freq and frequency > 1000:
                 max_freq = frequency
                 count = 0
                 # print("Frequency of sound: ", frequency)
@@ -117,39 +117,39 @@ def receive():
             # if count > 4:
             #     count = 0
                 print("Receiving:", end=" ")
-                if ((frequency > carnatic_notes["Sa"] - 3) and (carnatic_notes["Sa"] + 3 > frequency) or (frequency > 2*carnatic_notes["Sa"] - 3) and (2*carnatic_notes["Sa"] + 3 > frequency)):
-                # if (frequency%sa_frequency < 3 or frequency%sa_frequency > sa_frequency-3):
+                # if ((frequency > carnatic_notes["Sa"] - 3) and (carnatic_notes["Sa"] + 3 > frequency) or (frequency > 2*carnatic_notes["Sa"] - 3) and (2*carnatic_notes["Sa"] + 3 > frequency)):
+                if (frequency%sa_frequency < 3 or frequency%sa_frequency > sa_frequency-3):
                     count_nothing = 0
                     print("Sa")
                     received_data.append(map_note['Sa'])
-                elif (frequency > carnatic_notes["Ma1"] - 3) and (carnatic_notes["Ma1"] + 3 > frequency) or (frequency > 2*carnatic_notes["Ma1"] - 3) and (2*carnatic_notes["Ma1"] + 3 > frequency):
-                # elif(frequency%(sa_frequency*256/243) < 3 or frequency%(sa_frequency*256/243) > sa_frequency-3):
+                # elif (frequency > carnatic_notes["Ma1"] - 3) and (carnatic_notes["Ma1"] + 3 > frequency) or (frequency > 2*carnatic_notes["Ma1"] - 3) and (2*carnatic_notes["Ma1"] + 3 > frequency):
+                elif(frequency%(sa_frequency*4/3) < 3 or frequency%(sa_frequency*4/3) > sa_frequency-3):
             
                     count_nothing = 0
                     print('Ma1')
                     received_data.append(map_note['Ma1'])
-                elif (frequency > carnatic_notes["Re1"] - 3) and (carnatic_notes["Re1"] + 3 > frequency) or (frequency > 2*carnatic_notes["Re1"] - 3) and (2*carnatic_notes["Re1"] + 3 > frequency):
-                # elif(frequency%(sa_frequency*9/8) < 3 or frequency%(sa_frequency*9/8) > sa_frequency-3):
+                # elif (frequency > carnatic_notes["Re1"] - 3) and (carnatic_notes["Re1"] + 3 > frequency) or (frequency > 2*carnatic_notes["Re1"] - 3) and (2*carnatic_notes["Re1"] + 3 > frequency):
+                elif(frequency%(sa_frequency*256/243) < 3 or frequency%(sa_frequency*256/243) > sa_frequency-3):
                     count_nothing = 0
                     print('Re1')
                     received_data.append(map_note['Re1'])
-                elif (frequency > carnatic_notes["Ga3"] - 3) and (carnatic_notes["Ga3"] + 3 > frequency) or (frequency > 2*carnatic_notes["Ga3"] - 3) and (2*carnatic_notes["Ga3"] + 3 > frequency):
-                # elif(frequency%(sa_frequency*32/27) < 3 or frequency%(sa_frequency*32/27) > sa_frequency-3):
+                # elif (frequency > carnatic_notes["Ga3"] - 3) and (carnatic_notes["Ga3"] + 3 > frequency) or (frequency > 2*carnatic_notes["Ga3"] - 3) and (2*carnatic_notes["Ga3"] + 3 > frequency):
+                elif(frequency%(sa_frequency*81/64) < 3 or frequency%(sa_frequency*81/64) > sa_frequency-3):
                     count_nothing = 0
                     print(carnatic_notes['Ga3'])
                     received_data.append(map_note['Ga3'])
-                elif (frequency > carnatic_notes["Pa"] - 3) and (carnatic_notes["Pa"] + 3 > frequency) or (frequency > 2*carnatic_notes["Pa"] - 3) and (2*carnatic_notes["Pa"] + 3 > frequency):
-                # elif(frequency%(sa_frequency*4/3) < 3 or frequency%(sa_frequency*4/3) > sa_frequency-3):
+                # elif (frequency > carnatic_notes["Pa"] - 3) and (carnatic_notes["Pa"] + 3 > frequency) or (frequency > 2*carnatic_notes["Pa"] - 3) and (2*carnatic_notes["Pa"] + 3 > frequency):
+                elif(frequency%(sa_frequency*3/2) < 3 or frequency%(sa_frequency*3/2) > sa_frequency-3):
                     count_nothing = 0
                     print("Pa")
                     received_data.append(map_note['Pa'])
-                elif (frequency > carnatic_notes["Dha1"] - 3) and (carnatic_notes["Dha1"] + 3 > frequency) or (frequency > 2*carnatic_notes["Dha1"] - 3) and (2*carnatic_notes["Dha1"] + 3 > frequency):
-                # elif(frequency%(sa_frequency*3/2) < 3 or frequency%(sa_frequency*3/2) > sa_frequency-3):
+                # elif (frequency > carnatic_notes["Dha1"] - 3) and (carnatic_notes["Dha1"] + 3 > frequency) or (frequency > 2*carnatic_notes["Dha1"] - 3) and (2*carnatic_notes["Dha1"] + 3 > frequency):
+                elif(frequency%(sa_frequency*128/81) < 3 or frequency%(sa_frequency*128/81) > sa_frequency-3):
                     count_nothing = 0
                     print("Dha1")
                     received_data.append(map_note['Dha1'])
-                elif (frequency > carnatic_notes["Ni3"] - 3) and (carnatic_notes["Ni3"] + 3 > frequency) or (frequency > 2*carnatic_notes["Ni3"] - 3) and (2*carnatic_notes["Ni3"] + 3 > frequency):
-                # elif(frequency%(sa_frequency*128/81) < 3 or frequency%(sa_frequency*128/81) > sa_frequency-3):
+                # elif (frequency > carnatic_notes["Ni3"] - 3) and (carnatic_notes["Ni3"] + 3 > frequency) or (frequency > 2*carnatic_notes["Ni3"] - 3) and (2*carnatic_notes["Ni3"] + 3 > frequency):
+                elif(frequency%(sa_frequency*243/128) < 3 or frequency%(sa_frequency*243/128) > sa_frequency-3):
                     count_nothing = 0
                     print("Ni3")
                     received_data.append(map_note['Ni3'])
@@ -171,17 +171,17 @@ def receive():
             else:
                 count+= 1
 
-        print(received_data)
+        # print(received_data)
         rec_data = ''
         for strn in received_data:
             rec_data = rec_data + strn
-        print(rec_data)
+        # print(rec_data)
         packets = [rec_data[21*i:21*i+21] for i in range(len(rec_data)//21)]
         packets_ = []
         for i in range(len(packets)):
             packets_.append([int(char) for char in packets[i]])
-        print(packets)
-        print(packets_)
+        # print(packets)
+        # print(packets_)
         out = get_output(packets_)
         print(f"Message received is: {out}")
         
