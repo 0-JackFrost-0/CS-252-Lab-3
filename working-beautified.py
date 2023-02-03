@@ -46,8 +46,8 @@ carnatic_notes = {
     "Dha2": sa_frequency * 27 / 16,
     "Ni2": sa_frequency * 16 / 9,
     "Ni3": sa_frequency * 243 / 128,
-    "SaU": sa_frequency * 2,
-    "Re1U": sa_frequency*2 * 256 / 243
+    "SaU": sa_frequency * 1.95,
+    "Re1U": sa_frequency* 2.15
 }
 
 def receive():
@@ -65,21 +65,37 @@ def receive():
             bits = packet
             message_to_send = bits_to_notes(bits)
             print(message_to_send)
-
+            play_upper = {
+                'Sa' :False, 
+                'Re1' :False,
+                'Ga3' :False,
+                'Ma1' :False,
+                'Pa' :False,
+                'Dha1' :False,
+                'Ni3' :False,
+                'SaU' :False,
+                'Re1U' :False
+                }
+            
             # Play the aarohanam of the Mohanam raga
             for note in message_to_send:
-                play_note(carnatic_notes[note], 3)
+                if play_upper[note]:
+                    play_note(carnatic_notes[note]*2, 3)
+                    play_upper[note] = False
+                else:
+                    play_note(carnatic_notes[note], 3)
+                    play_upper[note] = True
         play_note(carnatic_notes["Re1U"],3)
     elif Job == "RECEIVE":
         Done = False
         rec_freq = []
         received_data = []
         count_nothing=0
+        count = 0
+        max_freq = 0
         while not Done:
             fs = 44100
             duration = 0.5
-            count = 0
-            max_freq = 0
             data = sd.rec(int(fs * duration), fs, channels=1)
             sd.wait()  # wait for recording to finish
             # take the FFT of the recorded audio
@@ -90,54 +106,63 @@ def receive():
 
             # calculate the frequency of the maximum value
             frequency = max_index * fs / len(data)
-            print("Receiving:", end=" ")
-            if frequency != max_freq:
+            
+            if frequency != max_freq and frequency > 1000 or count > 4:
                 max_freq = frequency
                 count = 0
                 # print("Frequency of sound: ", frequency)
-            else:
-                count += 1
+            # else:
+            #     count += 1
             
-            if count > 2:
-                if (frequency > carnatic_notes["Sa"] - 3) and (
-                    carnatic_notes["Sa"] + 3 > frequency
-                ):
+            # if count > 4:
+            #     count = 0
+                print("Receiving:", end=" ")
+                # if (frequency > carnatic_notes["Sa"] - 3) and (
+                #     carnatic_notes["Sa"] + 3 > frequency
+                # ):
+                if (frequency%sa_frequency < 3 or frequency%sa_frequency > sa_frequency-3):
                     count_nothing = 0
                     print("Sa")
                     received_data.append(map_note['Sa'])
-                elif (frequency > carnatic_notes["Ma1"] - 3) and (
-                    carnatic_notes["Ma1"] + 3 > frequency
-                ):
+                # elif (frequency > carnatic_notes["Ma1"] - 3) and (
+                #     carnatic_notes["Ma1"] + 3 > frequency
+                # ):
+                elif(frequency%(sa_frequency*256/243) < 3 or frequency%(sa_frequency*256/243) > sa_frequency-3):
                     count_nothing = 0
                     print('Ma1')
                     received_data.append(map_note['Ma1'])
-                elif (frequency > carnatic_notes["Re1"] - 3) and (
-                    carnatic_notes["Re1"] + 3 > frequency
-                ):
+                # elif (frequency > carnatic_notes["Re1"] - 3) and (
+                #     carnatic_notes["Re1"] + 3 > frequency
+                # ):
+                elif(frequency%(sa_frequency*9/8) < 3 or frequency%(sa_frequency*9/8) > sa_frequency-3):
                     count_nothing = 0
                     print('Re1')
                     received_data.append(map_note['Re1'])
-                elif (frequency > carnatic_notes["Ga3"] - 3) and (
-                    carnatic_notes["Ga3"] + 3 > frequency
-                ):
+                # elif (frequency > carnatic_notes["Ga3"] - 3) and (
+                #     carnatic_notes["Ga3"] + 3 > frequency
+                # ):
+                elif(frequency%(sa_frequency*32/27) < 3 or frequency%(sa_frequency*32/27) > sa_frequency-3):
                     count_nothing = 0
                     print(carnatic_notes['Ga3'])
                     received_data.append(map_note['Ga3'])
-                elif (frequency > carnatic_notes["Pa"] - 3) and (
-                    carnatic_notes["Pa"] + 3 > frequency
-                ):
+                # elif (frequency > carnatic_notes["Pa"] - 3) and (
+                #     carnatic_notes["Pa"] + 3 > frequency
+                # ):
+                elif(frequency%(sa_frequency*4/3) < 3 or frequency%(sa_frequency*4/3) > sa_frequency-3):
                     count_nothing = 0
                     print("Pa")
                     received_data.append(map_note['Pa'])
-                elif (frequency > carnatic_notes["Dha1"] - 3) and (
-                    carnatic_notes["Dha1"] + 3 > frequency
-                ):
+                # elif (frequency > carnatic_notes["Dha1"] - 3) and (
+                #     carnatic_notes["Dha1"] + 3 > frequency
+                # ):
+                elif(frequency%(sa_frequency*3/2) < 3 or frequency%(sa_frequency*3/2) > sa_frequency-3):
                     count_nothing = 0
                     print("Dha1")
                     received_data.append(map_note['Dha1'])
-                elif (frequency > carnatic_notes["Ni3"] - 3) and (
-                    carnatic_notes["Ni3"] + 3 > frequency
-                ):
+                # elif (frequency > carnatic_notes["Ni3"] - 3) and (
+                #     carnatic_notes["Ni3"] + 3 > frequency
+                # ):
+                elif(frequency%(sa_frequency*128/81) < 3 or frequency%(sa_frequency*128/81) > sa_frequency-3):
                     count_nothing = 0
                     print("Ni3")
                     received_data.append(map_note['Ni3'])
@@ -158,6 +183,8 @@ def receive():
 
                 if count_nothing > 5:
                     break
+            else:
+                count+= 1
 
         print(received_data)
         rec_data = ''
