@@ -90,48 +90,56 @@ def receive():
             # calculate the frequency of the maximum value
             frequency = max_index * fs / len(data)
             print("Receiving:", end=" ")
-            if (frequency > carnatic_notes["Sa"] - 5) and (
-                carnatic_notes["Sa"] + 5 > frequency
+            if (frequency > carnatic_notes["Sa"] - 75) and (
+                carnatic_notes["Sa"] + 75 > frequency
             ):
+                count_nothing = 0
                 print("Sa")
                 received_data.append(map_note['Sa'])
-            elif (frequency > carnatic_notes["Ma1"] - 5) and (
-                carnatic_notes["Ma1"] + 5 > frequency
+            elif (frequency > carnatic_notes["Ma1"] - 75) and (
+                carnatic_notes["Ma1"] + 75 > frequency
             ):
+                count_nothing = 0
                 print('Ma1')
                 received_data.append(map_note['Ma1'])
-            elif (frequency > carnatic_notes["Re1"] - 5) and (
-                carnatic_notes["Re1"] + 5 > frequency
+            elif (frequency > carnatic_notes["Re1"] - 75) and (
+                carnatic_notes["Re1"] + 75 > frequency
             ):
+                count_nothing = 0
                 print('Re1')
                 received_data.append(map_note['Re1'])
-            elif (frequency > carnatic_notes["Ga3"] - 5) and (
-                carnatic_notes["Ga3"] + 5 > frequency
+            elif (frequency > carnatic_notes["Ga3"] - 75) and (
+                carnatic_notes["Ga3"] + 75 > frequency
             ):
+                count_nothing = 0
                 print(carnatic_notes['Ga3'])
                 received_data.append(map_note['Ga3'])
-            elif (frequency > carnatic_notes["Pa"] - 5) and (
-                carnatic_notes["Pa"] + 5 > frequency
+            elif (frequency > carnatic_notes["Pa"] - 75) and (
+                carnatic_notes["Pa"] + 75 > frequency
             ):
+                count_nothing = 0
                 print("Pa")
                 received_data.append(map_note['Pa'])
-            elif (frequency > carnatic_notes["Dha1"] - 5) and (
-                carnatic_notes["Dha1"] + 5 > frequency
+            elif (frequency > carnatic_notes["Dha1"] - 75) and (
+                carnatic_notes["Dha1"] + 75 > frequency
             ):
+                count_nothing = 0
                 print("Dha1")
                 received_data.append(map_note['Dha1'])
-            elif (frequency > carnatic_notes["Ni3"] - 5) and (
-                carnatic_notes["Ni3"] + 5 > frequency
+            elif (frequency > carnatic_notes["Ni3"] - 75) and (
+                carnatic_notes["Ni3"] + 75 > frequency
             ):
+                count_nothing = 0
                 print("Ni3")
                 received_data.append(map_note['Ni3'])
-            elif (frequency > carnatic_notes["SaU"] - 5) and (
-                carnatic_notes["SaU"] + 5 > frequency
+            elif (frequency > carnatic_notes["SaU"] - 75) and (
+                carnatic_notes["SaU"] + 75 > frequency
             ):
+                count_nothing = 0
                 print("SaU")
                 received_data.append(map_note['SaU'])
-            elif (frequency > carnatic_notes["Re1U"] - 5) and (
-                carnatic_notes["Re1U"] + 5 > frequency):
+            elif (frequency > carnatic_notes["Re1U"] - 75) and (
+                carnatic_notes["Re1U"] + 75 > frequency):
                 break
             else:
                 count_nothing+=1
