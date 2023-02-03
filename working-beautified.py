@@ -32,7 +32,7 @@ for key,value in note_map.items():
     map_note[value] = key
 
 # Define the Carnatic notes and their frequencies
-sa_frequency = 280*5  # Sa frequency in Hz
+sa_frequency = 280 # Sa frequency in Hz
 carnatic_notes = {
     "Sa": sa_frequency,
     "Re1": sa_frequency * 256 / 243,
@@ -51,6 +51,8 @@ carnatic_notes = {
 }
 
 def receive():
+    while time.time()%10:
+        pass
     Job = input("Would you like to TRANSMIT, RECEIVE or END?  ")
 
     if Job == "TRANSMIT":
@@ -68,8 +70,8 @@ def receive():
 
             # Play the aarohanam of the Mohanam raga
             for note in message_to_send:
-                play_note(carnatic_notes[note], 2)
-        play_note(carnatic_notes["Re1U"],2)
+                play_note(carnatic_notes[note], 3)
+        play_note(carnatic_notes["Re1U"],3)
     elif Job == "RECEIVE":
         Done = False
         rec_freq = []
@@ -77,7 +79,7 @@ def receive():
         count_nothing=0
         while not Done:
             fs = 44100
-            duration = 2
+            duration = 3
             data = sd.rec(int(fs * duration), fs, channels=1)
             sd.wait()  # wait for recording to finish
             # take the FFT of the recorded audio
@@ -172,18 +174,5 @@ def receive():
         out = get_output(packets_)
         print(f"Message received is: {out}")
 
-
-def sleep():
-    time.sleep(3)
-
-while True:
-    t1 = threading.Thread(target=receive)
-    t2 = threading.Thread(target = sleep)
-
-    t2.start()
-    t1.start()
-
-    t1.join()
-    t2.join()
-
-    break
+if __name__ == "__main__":
+    receive()
