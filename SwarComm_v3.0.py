@@ -9,13 +9,13 @@ from hamming_code import *
 from tanpura import Taanpura_detector
 
 fs = 44100  # Sample rate
-duration = 10  # Duration of recording in seconds
+duration = 5  # Duration of recording in seconds
 
 
 # ---------TANPURA ----------
 
 BASE_FREQ = Taanpura_detector()
-BASE_FREQ = BASE_FREQ * 2
+BASE_FREQ = BASE_FREQ * 4
 print(f"Baseline set to {BASE_FREQ}")
 #-----------TEMPO-------------
 
@@ -140,7 +140,7 @@ def receive():
     elif Job == "RECEIVE":
         
         # Show readiness
-        play_note(carnatic_notes['Ni3']*2, 5)
+        play_note(carnatic_notes['Ni3']*2, 3)
         Done = False
         rec_freq = []
         received_data = []

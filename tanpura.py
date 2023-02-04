@@ -127,7 +127,7 @@ def Taanpura_detector():
     print("Looking for Tambura...")
     with sd.InputStream(channels=1, callback=callback, blocksize=WINDOW_STEP, samplerate=SAMPLE_FREQ):
       count = 0
-      while count < 7:
+      while count < 5:
         time.sleep(2)
         count +=1
         #print(count)
