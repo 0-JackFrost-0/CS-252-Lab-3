@@ -24,7 +24,7 @@ note_map = {
     "110": "Pa",
     "111": "Dha1",
     "101": "Ni3",
-    "100": "SaU",
+    "100": "HighFreq",
 }
 
 # Mayamaalava Gowla Melakarta Raagam
@@ -53,8 +53,8 @@ carnatic_notes = {
     "Dha2": sa_frequency * 27 / 16,
     "Ni2": sa_frequency * 16 / 9,
     "Ni3": sa_frequency * 243 / 128,
-    "SaU": sa_frequency * 3.9,
-    "Re1U": sa_frequency * 4.5
+    "HighFreq": sa_frequency * 3.9,
+    "Sentinel": sa_frequency * 4.5
 }
 play_upper = {
     'Sa': False,
@@ -64,8 +64,8 @@ play_upper = {
     'Pa': False,
     'Dha1': False,
     'Ni3': False,
-    'SaU': False,
-    'Re1U': False
+    'HighFreq': False,
+    'Sentinel': False
 }
 
 
@@ -93,7 +93,7 @@ def receive():
                 else:
                     play_note(carnatic_notes[note], 1.2)
                     play_upper[note] = True
-        play_note(carnatic_notes["Re1U"], 3)
+        play_note(carnatic_notes["Sentinel"], 3)
     elif Job == "RECEIVE":
         Done = False
         rec_freq = []
@@ -123,7 +123,7 @@ def receive():
                 if ((frequency > carnatic_notes["Sa"] - 3) and (carnatic_notes["Sa"] + 3 > frequency) or (frequency > 2*carnatic_notes["Sa"] - 3) and (2*carnatic_notes["Sa"] + 3 > frequency)):
                     # if (frequency%sa_frequency < 3 or frequency%sa_frequency > sa_frequency-3):
                     count_nothing = 0
-                    # print("Sa")
+                    print("Receiving: Sa")
                     received_data.append(map_note['Sa'])
                 elif (frequency > carnatic_notes["Ma1"] - 3) and (carnatic_notes["Ma1"] + 3 > frequency) or (frequency > 2*carnatic_notes["Ma1"] - 3) and (2*carnatic_notes["Ma1"] + 3 > frequency):
                     # elif(frequency%(sa_frequency*4/3) < 3 or frequency%(sa_frequency*4/3) > sa_frequency-3):
@@ -155,12 +155,12 @@ def receive():
                     count_nothing = 0
                     print("Receiving: Ni3")
                     received_data.append(map_note['Ni3'])
-                elif (frequency > carnatic_notes["SaU"] - 3) and (carnatic_notes["SaU"] + 3 > frequency) or (frequency > 2*carnatic_notes["SaU"] - 3) and (2*carnatic_notes["SaU"] + 3 > frequency):
+                elif (frequency > carnatic_notes["HighFreq"] - 3) and (carnatic_notes["HighFreq"] + 3 > frequency) or (frequency > 2*carnatic_notes["HighFreq"] - 3) and (2*carnatic_notes["HighFreq"] + 3 > frequency):
                     count_nothing = 0
-                    print("Receiving: SaU")
-                    received_data.append(map_note['SaU'])
-                elif (frequency > carnatic_notes["Re1U"] - 3) and (
-                        carnatic_notes["Re1U"] + 3 > frequency):
+                    print("Receiving: HighFreq")
+                    received_data.append(map_note['HighFreq'])
+                elif (frequency > carnatic_notes["Sentinel"] - 3) and (
+                        carnatic_notes["Sentinel"] + 3 > frequency):
                     break
             else:
                 count += 1
