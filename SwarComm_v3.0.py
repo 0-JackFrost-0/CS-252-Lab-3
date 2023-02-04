@@ -10,12 +10,12 @@ from tanpura import Taanpura_detector
 
 fs = 44100  # Sample rate
 duration = 5  # Duration of recording in seconds
-
+BASE_FREQ = 1400
 
 # ---------TANPURA ----------
 
 BASE_FREQ = Taanpura_detector()
-BASE_FREQ = BASE_FREQ * 4
+BASE_FREQ = np.round(BASE_FREQ, -1) * 4
 print(f"Baseline set to {BASE_FREQ}")
 #-----------TEMPO-------------
 
@@ -40,13 +40,11 @@ bpm, beats, beats_confidence, _, beats_intervals = rhythm_extractor(audio)
 
 
 
-# print("BPM:", bpm)
-# print("Beat positions (sec.):", beats)
-rec_duration = np.round(bpm, -1) / 240
-send_duration = rec_duration + 0.7 
+rec_duration = np.round(bpm, -1)/40
+send_duration = 2* rec_duration + 0.2  
 print(rec_duration)
 print(send_duration)
-# print("Beat estimation confidence:", beats_confidence)
+
 
 #--------- TRANSMIT/RECEIVE ----------
 
@@ -70,7 +68,7 @@ note_map = {
     "100": "HighFreq",
 }
 
-# Mayamaalava Gowla Melakarta Raagam
+
 
 
 def bits_to_notes(bits):
@@ -80,7 +78,7 @@ def bits_to_notes(bits):
 map_note = {}
 for key, value in note_map.items():
     map_note[value] = key
-
+print(map_note)
 # Define the Carnatic notes and their frequencies
 sa_frequency = BASE_FREQ  # Sa frequency in Hz
 carnatic_notes = {
@@ -161,12 +159,12 @@ def receive():
             # calculate the frequency of the maximum value
             frequency = max_index * fs / len(data)
 
-            if abs(frequency - max_freq) > 3 and frequency >= 1400:
+            if abs(frequency - max_freq) > 3 and frequency >= BASE_FREQ:
                 max_freq = frequency
                 count = 0
                 # print(frequency)
                 # print("Receiving:", end=" ")
-                if ((frequency > carnatic_notes["Sa"] - 3) and (carnatic_notes["Sa"] + 3 > frequency) or (frequency > 2*carnatic_notes["Sa"] - 3) and (2*carnatic_notes["Sa"] + 3 > frequency)):
+                if (frequency > carnatic_notes["Sa"] - 3) and (carnatic_notes["Sa"] + 3 > frequency) or (frequency > 2*carnatic_notes["Sa"] - 3) and (2*carnatic_notes["Sa"] + 3 > frequency):
                     # if (frequency%sa_frequency < 3 or frequency%sa_frequency > sa_frequency-3):
                     count_nothing = 0
                     print("Receiving: Sa")
@@ -211,17 +209,16 @@ def receive():
             else:
                 count += 1
 
-        # print(received_data)
+        
         rec_data = ''
         for strn in received_data:
             rec_data = rec_data + strn
-        # print(rec_data)
+      
         packets = [rec_data[21*i:21*i+21] for i in range(len(rec_data)//21)]
         packets_ = []
         for i in range(len(packets)):
             packets_.append([int(char) for char in packets[i]])
-        # print(packets)
-        # print(packets_)
+        
         out = get_output(packets_)
         print(f"Message received is: {out}")
 

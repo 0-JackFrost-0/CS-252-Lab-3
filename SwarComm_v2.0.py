@@ -39,9 +39,9 @@ for key, value in note_map.items():
     map_note[value] = key
 
 # Define the Carnatic notes and their frequencies
-sa_frequency = 280*5  # Sa frequency in Hz
+sa_frequency = 1400 # Sa frequency in Hz
 carnatic_notes = {
-    "Sa": sa_frequency,
+    "Sa": sa_frequency * 1,
     "Re1": sa_frequency * 256 / 243,
     "Re2": sa_frequency * 9 / 8,
     "Ga2": sa_frequency * 32 / 27,
@@ -56,6 +56,7 @@ carnatic_notes = {
     "HighFreq": sa_frequency * 3.9,
     "Sentinel": sa_frequency * 4.5
 }
+print(carnatic_notes)
 play_upper = {
     'Sa': False,
     'Re1': False,
@@ -115,7 +116,7 @@ def receive():
             # calculate the frequency of the maximum value
             frequency = max_index * fs / len(data)
 
-            if abs(frequency - max_freq) > 3 and frequency >= 1400:
+            if abs(frequency - max_freq) > 3 and frequency >= sa_frequency:
                 max_freq = frequency
                 count = 0
                 # print(frequency)
