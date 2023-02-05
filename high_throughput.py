@@ -99,6 +99,7 @@ def receive():
                     play_upper[note] = True
         play_note(carnatic_notes["Re1U"],0.3)
     elif Job == "RECEIVE":
+        play_note(carnatic_notes["Re1U"], 1)
         Done = False
         rec_freq = []
         received_data = []

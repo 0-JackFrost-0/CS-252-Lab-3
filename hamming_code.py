@@ -97,8 +97,17 @@ def get_input():
         elif bit_to_change > 3:
             hamming[5 + bit_to_change] = 1 - hamming[5 + bit_to_change]
         hamming_packets[packet_to_change] = hamming
-
     conveyable_packets = []
+    bitswerr = ''
+    for packet in hamming_packets:
+
+        newpack = corrected_data(packet)
+        for bit in newpack:
+            bitswerr += str(bit)
+
+    print("Bit String with error:", bitswerr[:-padded_bits])
+    
+    
     # makes message conveyable
     packet_no = 0
     for packet in hamming_packets:
@@ -123,9 +132,36 @@ def get_output(conveyable_packets):
         hamming_packets.append(conveyable_to_hamming(packet))
         if num_packets == len(conveyable_packets):
             num_of_padding = int(''.join(map(str, packet[16:])), 2)
+
+
+    # print("HAM",hamming_packets)
+    num_packets = 0
+    uncorrected_packets = []
+    for packet in hamming_packets:
+        num_packets += 1
+        if num_packets == len(hamming_packets):
+            # print(num_of_padding)
+            if num_of_padding != 0:
+                # print(corrected_data(packet))
+                # print(packet)
+                uncorrected_packets.append(
+                    corrected_data(packet)[:-num_of_padding])
+            else:
+                uncorrected_packets.append(corrected_data(packet))
+        else:
+            uncorrected_packets.append(corrected_data(packet))
+    bitwerror = ''
+    # print(corrected_hamming_packets)
+    for packet in uncorrected_packets:
+        for bit in packet:
+            bitwerror += str(bit)
+    print("Recieved Data with error: ", bitwerror)
+ 
+
     corrected_hamming_packets = []
     for packet in hamming_packets:
         corrected_hamming_packets.append(correct_error(packet))
+
     corrected_packets = []
     num_packets = 0
     for packet in corrected_hamming_packets:
@@ -139,12 +175,40 @@ def get_output(conveyable_packets):
                 corrected_packets.append(corrected_data(packet))
         else:
             corrected_packets.append(corrected_data(packet))
+    
+
+    #######################################################
+    # print("convey",conveyable_packets)
+    # num_packets = 0
+    # uncorrected_packets = []
+    # for packet in hamming_packets:
+    #     num_packets += 1
+    #     if num_packets == len(hamming_packets):
+    #         # print(num_of_padding)
+    #         if num_of_padding != 0:
+    #             # print(corrected_data(packet))
+    #             # print(packet)
+    #             uncorrected_packets.append(
+    #                 corrected_data(packet)[:-num_of_padding])
+    #         else:
+    #             uncorrected_packets.append(corrected_data(packet))
+    #     else:
+    #         uncorrected_packets.append(corrected_data(packet))
+    # bitwerror = ''
+    # # print(corrected_hamming_packets)
+    # for packet in uncorrected_packets:
+    #     for bit in packet:
+    #         bitwerror += str(bit)
+    # print("Recieved Data with error: ", bitwerror)
+    # #########################################################
     bits = ''
-    # print(corrected_hamming_packets)
     for packet in corrected_packets:
         for bit in packet:
             bits += str(bit)
+
+    print([i for i in range(len(bitwerror)) if bitwerror[i] != bits[i]])
     return bits
+
 
 # correct_hamming_codes, changed_hamming_codes = get_input()
 # print(get_output(get_input()))
