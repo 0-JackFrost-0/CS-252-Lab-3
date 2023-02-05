@@ -75,7 +75,7 @@ play_upper = {
 def receive():
     Job = input("Would you like to TRANSMIT, RECEIVE or END?  ")
 
-    if Job == "TRANSMIT":
+    if Job == "t":
         
         packets = get_input()
         packet_ = []
@@ -98,7 +98,7 @@ def receive():
                     play_note(carnatic_notes[note], 0.3)
                     play_upper[note] = True
         play_note(carnatic_notes["Re1U"],0.3)
-    elif Job == "RECEIVE":
+    elif Job == "r":
         play_note(carnatic_notes["Re1U"], 1)
         Done = False
         rec_freq = []
