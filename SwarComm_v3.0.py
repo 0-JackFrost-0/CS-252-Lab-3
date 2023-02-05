@@ -10,7 +10,7 @@ from tanpura import Taanpura_detector
 
 fs = 44100  # Sample rate
 duration = 5  # Duration of recording in seconds
-BASE_FREQ = 1400
+# BASE_FREQ = 1400
 
 # ---------TANPURA ----------
 
