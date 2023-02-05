@@ -15,7 +15,7 @@ BASE_FREQ = 1400
 # ---------TANPURA ----------
 
 BASE_FREQ = Taanpura_detector()
-BASE_FREQ = np.round(BASE_FREQ, -1) * 4
+BASE_FREQ = np.round(BASE_FREQ, -1) * 2
 print(f"Baseline set to {BASE_FREQ}")
 #-----------TEMPO-------------
 
@@ -39,8 +39,8 @@ rhythm_extractor = ess.RhythmExtractor2013(method="multifeature")
 bpm, beats, beats_confidence, _, beats_intervals = rhythm_extractor(audio)
 
 
-
-rec_duration = np.round(bpm, -1)/40
+print(bpm)
+rec_duration = 60/np.round(bpm, -1)
 send_duration = 2* rec_duration + 0.2  
 print(rec_duration)
 print(send_duration)
